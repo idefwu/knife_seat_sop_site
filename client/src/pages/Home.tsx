@@ -1,12 +1,13 @@
 /**
  * 設計風格：安全工房 (Safety Workshop)
- * 刀座切換作業指導網站 — 主頁面
- * 結構：Hero → 文件抬頭列 → 步驟導航+步驟卡 → 安全警示帶 → 教學影片 → 流程圖 → 現場照片 → 頁尾
+ * 刀座切換作業指導網站 — 左右框架 (Frame) 架構
+ * 左框架：固定導覽（標誌＋文件編號＋步驟＋區塊），不隨右側捲動
+ * 右框架：獨立捲動，承載 Hero／文件抬頭／步驟卡／警示帶／影片／流程圖／照片／頁尾
  */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Hero } from "@/components/Hero";
 import { DocHeader } from "@/components/DocHeader";
-import { StepNav } from "@/components/StepNav";
+import { SideFrame } from "@/components/SideFrame";
 import { StepCard } from "@/components/StepCard";
 import { SafetyBanner } from "@/components/SafetyBanner";
 import { VideoSection } from "@/components/VideoSection";
@@ -18,31 +19,49 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { STEPS } from "@/data/steps";
 
 export default function Home() {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState("step-1");
   const [lb, setLb] = useState<{ url: string | null; caption: string }>({
     url: null,
     caption: "",
   });
+  // 右框架捲動容器
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // 滾動定位：偵測目前步驟
+  // 右框架內平滑捲動定位
+  const scrollTo = useCallback((id: string) => {
+    const container = scrollRef.current;
+    const el = document.getElementById(id);
+    if (!container || !el) return;
+    const top =
+      el.getBoundingClientRect().top -
+      container.getBoundingClientRect().top +
+      container.scrollTop -
+      16;
+    container.scrollTo({ top, behavior: "smooth" });
+  }, []);
+
+  // 偵測目前位置以高亮左框架（在右框架捲動容器內觀察）
   useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+    const ids = [
+      ...STEPS.map((s) => `step-${s.no}`),
+      "sec-safety",
+      "sec-video",
+      "sec-flow",
+      "sec-photo",
+    ];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const no = Number((e.target as HTMLElement).dataset.no);
-            if (no) setActive(no);
-          }
+          if (e.isIntersecting && e.target.id) setActive(e.target.id);
         });
       },
-      { rootMargin: "-30% 0px -55% 0px", threshold: 0 },
+      { root, rootMargin: "-25% 0px -60% 0px", threshold: 0 },
     );
-    STEPS.forEach((s) => {
-      const el = document.getElementById(`step-${s.no}`);
-      if (el) {
-        el.dataset.no = String(s.no);
-        observer.observe(el);
-      }
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
     });
     return () => observer.disconnect();
   }, []);
@@ -52,44 +71,55 @@ export default function Home() {
   const closeLightbox = () => setLb({ url: null, caption: "" });
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Hero />
+    <div className="bg-background text-foreground">
+      {/* 左框架 */}
+      <SideFrame active={active} scrollTo={scrollTo} />
 
-      <main id="doc-body" className="container py-10">
-        <DocHeader />
+      {/* 右框架（獨立捲動） */}
+      <div
+        ref={scrollRef}
+        className="h-screen overflow-y-auto pt-[57px] lg:ml-[300px] lg:pt-0"
+      >
+        <div id="sec-top" />
+        <Hero scrollTo={scrollTo} />
 
-        {/* 步驟區：左導航 + 右步驟卡 */}
-        <section className="mt-12">
-          <SectionTitle
-            no="01"
-            en="OPERATION STEPS"
-            zh="作業步驟"
-            desc="共 8 步驟・退出 → 切換 → 連線"
-          />
-          <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
-            <aside className="hidden lg:block">
-              <StepNav active={active} />
-            </aside>
+        <main className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
+          <DocHeader />
+
+          {/* 步驟區 */}
+          <section className="mt-12">
+            <SectionTitle
+              no="01"
+              en="OPERATION STEPS"
+              zh="作業步驟"
+              desc="共 8 步驟・退出 → 切換 → 連線"
+            />
             <div className="flex flex-col gap-6">
               {STEPS.map((s) => (
                 <StepCard key={s.no} step={s} onOpenCard={openLightbox} />
               ))}
             </div>
+          </section>
+
+          <div id="sec-safety">
+            <SafetyBanner />
           </div>
-        </section>
 
-        <SafetyBanner />
+          <div id="sec-video">
+            <VideoSection />
+          </div>
 
-        <div id="video">
-          <VideoSection />
-        </div>
+          <div id="sec-flow">
+            <FlowchartSection onOpen={openLightbox} />
+          </div>
 
-        <FlowchartSection onOpen={openLightbox} />
+          <div id="sec-photo">
+            <PhotoGallery onOpen={openLightbox} />
+          </div>
+        </main>
 
-        <PhotoGallery onOpen={openLightbox} />
-      </main>
-
-      <SiteFooter />
+        <SiteFooter />
+      </div>
 
       <Lightbox
         open={!!lb.url}

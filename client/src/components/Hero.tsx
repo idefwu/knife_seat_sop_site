@@ -1,28 +1,22 @@
-/** 安全工房：頂部 Hero（機台主視覺 + 文件標題） */
+/** 安全工房：右框架頂部 Hero（機台主視覺 + 文件標題） */
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { DOC_META, HERO_URL, LOGO_URL } from "@/data/steps";
 import { HazardStripe } from "./HazardStripe";
 
-export function Hero() {
-  const scrollDown = () => {
-    document
-      .getElementById("doc-body")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
+export function Hero({ scrollTo }: { scrollTo: (id: string) => void }) {
   return (
     <header className="relative">
-      <div className="relative h-[78vh] min-h-[520px] w-full overflow-hidden">
+      <div className="relative h-[68vh] min-h-[460px] w-full overflow-hidden">
         <img
           src={HERO_URL}
           alt="二米雙刀座分條機"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/85 to-transparent" />
 
-        <div className="container relative flex h-full flex-col justify-center">
+        <div className="relative flex h-full flex-col justify-center px-6 sm:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -43,18 +37,18 @@ export function Hero() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button
-                onClick={scrollDown}
+                onClick={() => scrollTo("step-1")}
                 className="flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-transform duration-150 active:scale-[0.97]"
               >
                 開始閱讀作業步驟
                 <ChevronDown className="h-4 w-4" />
               </button>
-              <a
-                href="#video"
+              <button
+                onClick={() => scrollTo("sec-video")}
                 className="border border-border bg-card/60 px-5 py-2.5 text-sm font-bold backdrop-blur-sm transition-colors hover:bg-card"
               >
                 觀看教學影片
-              </a>
+              </button>
             </div>
           </motion.div>
         </div>
