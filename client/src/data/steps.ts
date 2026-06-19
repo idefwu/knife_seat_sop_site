@@ -38,6 +38,7 @@ export const PHOTO_URLS: Record<string, string> = {
 
 export const FLOWCHART_URL = "/manus-storage/flowchart_e211bc76.png";
 export const FULL_VIDEO_URL = "/manus-storage/full_video_934c6c57.mp4";
+export const YOUTUBE_ID = "W9g48AiYodA";
 export const HERO_URL =
   "https://d2xsxph8kpxj0f.cloudfront.net/104103688/Rkj3ivnkaBgkUVRu6GfQiM/hero-RUr9XGn3cmJPcKhuwY2Tam.webp";
 export const LOGO_URL =
