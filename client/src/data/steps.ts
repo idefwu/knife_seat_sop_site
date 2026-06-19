@@ -14,29 +14,27 @@ export interface Step {
   equipment: string;
 }
 
-const CARD = (n: number) => `/manus-storage/card${n}`;
-
 export const CARD_URLS: Record<number, string> = {
-  1: "/manus-storage/card1_9dec42c3.jpg",
-  2: "/manus-storage/card2_4ff78b24.jpg",
-  3: "/manus-storage/card3_39ce8bc7.jpg",
-  4: "/manus-storage/card4_36635ee0.jpg",
-  5: "/manus-storage/card5_7cec0b9d.jpg",
-  6: "/manus-storage/card6_13e43076.jpg",
-  7: "/manus-storage/card7_df841d1f.jpg",
-  8: "/manus-storage/card8_f313c429.jpg",
+  1: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/eBctqCaMNWnZBhaI.jpg",
+  2: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/HOKtnnCyIBcxMLsv.jpg",
+  3: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/KmnFJMgVSqahDTcM.jpg",
+  4: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/ClKvkNFjrAMJEGHr.jpg",
+  5: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/zTqGjJqsAcEcQcgu.jpg",
+  6: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/wzHOJiMckdIZwlAO.jpg",
+  7: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/tpworWmHKWtQhHim.jpg",
+  8: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/vbQIryAZHwRcnszG.jpg",
 };
 
 export const PHOTO_URLS: Record<string, string> = {
-  圖A: "/manus-storage/photo1_8dd7164b.jpeg",
-  圖B: "/manus-storage/photo2_4bf33ff1.jpeg",
-  圖C: "/manus-storage/photo3_c84f11bb.jpeg",
-  圖D: "/manus-storage/photo4_e7a2d0e8.jpeg",
-  圖E: "/manus-storage/photo5_bea78500.jpeg",
-  圖F: "/manus-storage/photo6_d9c00b64.jpeg",
+  圖A: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/ZeAmKGgNElyBQLGc.jpeg",
+  圖B: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/LJaApYxTHwkwGSQH.jpeg",
+  圖C: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/WAnujxZeTfWanxie.jpeg",
+  圖D: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/NnSgZdpgqVJlCWaV.jpeg",
+  圖E: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/RxKWrTzsbAUNZUyY.jpeg",
+  圖F: "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/LUDiIqAhyCmRromK.jpeg",
 };
 
-export const FLOWCHART_URL = "/manus-storage/flowchart_e211bc76.png";
+export const FLOWCHART_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/104103688/acAKYhhMKUJSOphR.png";
 export const FULL_VIDEO_URL = "/manus-storage/full_video_934c6c57.mp4";
 export const YOUTUBE_ID = "W9g48AiYodA";
 export const HERO_URL =
