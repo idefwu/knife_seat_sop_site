@@ -1,4 +1,4 @@
 {
-  "build_command": "pnpm run build",
+  "build_command": "pnpm run build:zeabur",
   "output_dir": "dist/public"
 }
